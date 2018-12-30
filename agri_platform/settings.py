@@ -125,3 +125,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+PLATFORM_URL = "http://192.168.73.3:1994/api/v1"

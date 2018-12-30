@@ -1,12 +1,13 @@
 import requests
 import json
+from agri_platform.settings import PLATFORM_URL
 
-url = "http://192.168.73.3:1994/api/v1"
+Plt_url = PLATFORM_URL
 
 
 class Auth:
     def __init__(self):
-        self.url_auth = url + "/auth"
+        self.url_auth = Plt_url + "/auth"
 
     def login(self, username, password, remember):
         raw_data = {"username": username, "password": password, "remember": remember}
@@ -44,7 +45,7 @@ class Auth:
 
 class Projects:
     def __init__(self, token):
-        self.url_projects = url + "/projects"
+        self.url_projects = Plt_url + "/projects"
         self.access_token = token["access_token"]
         self.refresh_token = token["refresh_token"]
 
@@ -124,7 +125,7 @@ class Projects:
 
 class Things:
     def __init__(self, token):
-        self.url_things = url + "/projects"
+        self.url_things = Plt_url + "/projects"
         self.access_token = token["access_token"]
         self.refresh_token = token["refresh_token"]
 
@@ -212,7 +213,7 @@ class Things:
 
 class Data:
     def __init__(self, token, project_id, thing_id):
-        self.url_data = url + "/projects%s/things/%s/queries/" % project_id, thing_id
+        self.url_data = Plt_url + "/projects%s/things/%s/queries/" % project_id, thing_id
         self.access_token = token["access_token"]
         self.refresh_token = token["refresh_token"]
         self.project_id = project_id
