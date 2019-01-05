@@ -1,11 +1,11 @@
-from django.conf.urls import url
-from django.contrib import admin
-from django.urls import path, include
-from .views.views import *
-from .views import login as log
+from django.urls import path
+from .views import *
 
 req_urls = [
-    url('login/', log),
-    url('refresh/', refresh),
-    url('projects/', projects),
+    path('login/', login),
+    path('projects/', get_projects),
+    path('projects/<slug:id>', get_project_detail),
+    path('projects/<slug:p_id>/things/', get_project_things),
+    path('projects/<slug:p_id>/things/<slug:t_id>', get_thing_detail)
+
 ]

@@ -20,5 +20,5 @@ from request.api.urls import req_urls
 urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('admin/', admin.site.urls),
-    path('request/', include(req_urls))
+    path('api/', include(req_urls))
 ]

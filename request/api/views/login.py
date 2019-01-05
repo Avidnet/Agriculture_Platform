@@ -17,11 +17,11 @@ def login(request):
     else:
         user_login(request, user)
         print('sssss')
-        # auth = Auth()
-        # response = auth.login(username, password, False)
-        # access = response.get('access_token')
-        # refresh = response.get('refresh_token')
-        # user.access_token = access
-        # user.refresh_token = refresh
-        # user.save()
+        auth = Auth()
+        response = auth.login(username, password, False)
+        access = response.get('access_token')
+        refresh = response.get('refresh_token')
+        user.access_token = access
+        user.refresh_token = refresh
+        user.save()
         return JsonResponse({"message": "ok"}, status=200)

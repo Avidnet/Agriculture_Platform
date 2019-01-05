@@ -33,7 +33,7 @@ class Auth:
         json_refresh = json.dumps(raw_data)
 
         try:
-            response = requests.post(self.url_auth + "/refresh", data=json_refresh, header=header)
+            response = requests.post(self.url_auth + "/refresh", data=json_refresh, headers=header)
             if response.status_code == 200:
                 token = {'access_token': response.json()['access_token'],
                          'refresh_token': response.json()['refresh_token']}
@@ -58,17 +58,21 @@ class Projects:
             response = requests.get(self.url_projects, headers=header)
 
             # Successful
+            print(response.status_code)
             if response.status_code == 200:
                 return response.json()
 
             # Unauthorized
+
             elif response.status_code == 401:
                 u = MyUser.objects.get(access_token=self.access_token, refresh_token=self.refresh_token)
+                print(u.access_token)
                 token_new = Auth().refresh(self.access_token, self.refresh_token)
                 print(token_new)
                 u.access_token = token_new.get('access_token')
                 u.refresh_token = token_new.get('refresh_token')
                 u.save()
+                print(u.access_token)
                 return Projects(token_new).get_projects()
 
             else:
@@ -173,7 +177,7 @@ class Things:
         header = {"Authorization": "Bearer " + self.access_token}
 
         try:
-            response = requests.get(self.url_things + "%s/things/%s" % (id_project, id_thing), headers=header)
+            response = requests.get(self.url_things + "/%s/things/%s" % (id_project, id_thing), headers=header)
 
             # Successful
             if response.status_code == 200:
@@ -191,10 +195,10 @@ class Things:
                 return Things(token_new).get_thing_data(id_project, id_thing)
 
             else:
-                return "Error1 => Projects:get_thing_data()"
+                return response.status_code
 
         except:
-            return "Error2 => Projects:get_thing_data() "
+            return "Error2 => Things:get_thing_data() "
 
     def add_thing(self, id_project, thing_data):
         # thing_data format =>
