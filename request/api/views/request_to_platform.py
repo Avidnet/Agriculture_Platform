@@ -1,7 +1,7 @@
 import requests
 import json
 from agri_platform.settings import PLATFORM_URL
-
+from request.utils.login_required import login_required
 Plt_url = PLATFORM_URL
 
 
@@ -41,7 +41,6 @@ class Auth:
                 return "try again"
         except:
             return "Error => Auth:refresh() "
-
 
 class Projects:
     def __init__(self, token):

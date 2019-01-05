@@ -15,20 +15,15 @@ def login(request):
     data = request.POST
     print(data)
 
-    uname = data.get("username", "no username")
-    pwd = data.get("password", "no pass")
-    rem = data.get("remember", "no rem")
+    uname = data.get("username")
+    pwd = data.get("password")
+    rem = data.get("remember")
 
     print(uname, pwd, rem)
 
-    if uname != 'username' and pwd != "no pass":
-
-        print("in auth")
-
+    if uname and pwd:
         auth = Auth()
         response = auth.login(uname, pwd, rem)
-        print(response)
-
         return JsonResponse(response, status=200, safe=False)
 
     else:
