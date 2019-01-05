@@ -1,7 +1,9 @@
 import requests
 import json
 from agri_platform.settings import PLATFORM_URL
+from request.models import MyUser
 from request.utils.login_required import login_required
+
 Plt_url = PLATFORM_URL
 
 
@@ -42,6 +44,7 @@ class Auth:
         except:
             return "Error => Auth:refresh() "
 
+
 class Projects:
     def __init__(self, token):
         self.url_projects = Plt_url + "/projects"
@@ -60,9 +63,12 @@ class Projects:
 
             # Unauthorized
             elif response.status_code == 401:
+                u = MyUser.objects.get(access_token=self.access_token, refresh_token=self.refresh_token)
                 token_new = Auth().refresh(self.access_token, self.refresh_token)
                 print(token_new)
-
+                u.access_token = token_new.get('access_token')
+                u.refresh_token = token_new.get('refresh_token')
+                u.save()
                 return Projects(token_new).get_projects()
 
             else:
@@ -83,10 +89,14 @@ class Projects:
 
             # Unauthorized
             elif response.status_code == 401:
+                u = MyUser.objects.get(access_token=self.access_token, refresh_token=self.refresh_token)
                 token_new = Auth().refresh(self.access_token, self.refresh_token)
                 print(token_new)
+                u.access_token = token_new.get('access_token')
+                u.refresh_token = token_new.get('refresh_token')
+                u.save()
 
-                return Projects(token_new).get_projects()
+                return Projects(token_new).get_project_detail(id)
 
 
             else:
@@ -110,8 +120,12 @@ class Projects:
 
             # Unauthorized
             elif response.status_code == 401:
+                u = MyUser.objects.get(access_token=self.access_token, refresh_token=self.refresh_token)
                 token_new = Auth().refresh(self.access_token, self.refresh_token)
                 print(token_new)
+                u.access_token = token_new.get('access_token')
+                u.refresh_token = token_new.get('refresh_token')
+                u.save()
 
                 return Projects(token_new).create_project(name, additionalProp)
 
@@ -140,8 +154,12 @@ class Things:
 
             # Unauthorized
             elif response.status_code == 401:
+                u = MyUser.objects.get(access_token=self.access_token, refresh_token=self.refresh_token)
                 token_new = Auth().refresh(self.access_token, self.refresh_token)
                 print(token_new)
+                u.access_token = token_new.get('access_token')
+                u.refresh_token = token_new.get('refresh_token')
+                u.save()
 
                 return Things(token_new).get_project_things(id_project)
 
@@ -163,8 +181,12 @@ class Things:
 
             # Unauthorized
             elif response.status_code == 401:
+                u = MyUser.objects.get(access_token=self.access_token, refresh_token=self.refresh_token)
                 token_new = Auth().refresh(self.access_token, self.refresh_token)
                 print(token_new)
+                u.access_token = token_new.get('access_token')
+                u.refresh_token = token_new.get('refresh_token')
+                u.save()
 
                 return Things(token_new).get_thing_data(id_project, id_thing)
 
@@ -198,8 +220,12 @@ class Things:
 
             # Unauthorized
             elif response.status_code == 401:
+                u = MyUser.objects.get(access_token=self.access_token, refresh_token=self.refresh_token)
                 token_new = Auth().refresh(self.access_token, self.refresh_token)
-                print("last token has been expired and new token is : " + token_new)
+                print(token_new)
+                u.access_token = token_new.get('access_token')
+                u.refresh_token = token_new.get('refresh_token')
+                u.save()
 
                 return Things(token_new).add_thing(id_project, thing_data)
 
@@ -241,8 +267,12 @@ class Data:
 
             # Unauthorized
             elif response.status_code == 401:
+                u = MyUser.objects.get(access_token=self.access_token, refresh_token=self.refresh_token)
                 token_new = Auth().refresh(self.access_token, self.refresh_token)
-                print("last token has been expired and new token is : " + token_new)
+                print(token_new)
+                u.access_token = token_new.get('access_token')
+                u.refresh_token = token_new.get('refresh_token')
+                u.save()
 
                 return Data(token_new, self.project_id, self.thing_id).fetch_data_in_time_range(time_range_aset)
 
@@ -272,8 +302,12 @@ class Data:
 
             # Unauthorized
             elif response.status_code == 401:
+                u = MyUser.objects.get(access_token=self.access_token, refresh_token=self.refresh_token)
                 token_new = Auth().refresh(self.access_token, self.refresh_token)
-                print("last token has been expired and new token is : " + token_new)
+                print(token_new)
+                u.access_token = token_new.get('access_token')
+                u.refresh_token = token_new.get('refresh_token')
+                u.save()
 
                 return Data(token_new, self.project_id, self.thing_id).fetch_data_in_time_range(assset)
 
